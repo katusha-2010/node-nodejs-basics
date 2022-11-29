@@ -1,7 +1,7 @@
 import * as path from "path";
 import { dirname } from "path";
 import { fileURLToPath } from "url";
-import { access, readdir, cp, copyFile } from "fs/promises";
+import { access, readdir, cp, mkdir, copyFile } from "fs/promises";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -26,12 +26,12 @@ const copy = async () => {
       throw Error("FS operation failed");
     } else {
       const folderContent = await readdir(pathToFolder);
+      await mkdir(pathToFolderCopy);
 
       for (let item of folderContent) {
-        await cp(
+        await copyFile(
           path.join(__dirname, "files", `${item}`),
-          path.join(__dirname, "files_copy", `${item}`),
-          { recursive: true }
+          path.join(__dirname, "files_copy", `${item}`)
         );
       }
     }
