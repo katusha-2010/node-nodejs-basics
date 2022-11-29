@@ -1,7 +1,7 @@
 import * as path from "path";
 import { dirname } from "path";
 import { fileURLToPath } from "url";
-import { access, rename } from "fs/promises";
+import { access, rename as renameAPI } from "fs/promises";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -15,7 +15,7 @@ async function isExist(pathToItem) {
   }
 }
 
-const renameFunc = async () => {
+const rename = async () => {
   const pathToFile = path.join(__dirname, "files", "wrongFilename.txt");
   const pathToRenamedFile = path.join(__dirname, "files", "properFilename.md");
 
@@ -26,7 +26,7 @@ const renameFunc = async () => {
     ) {
       throw Error("FS operation failed");
     } else {
-      await rename(pathToFile, pathToRenamedFile);
+      await renameAPI(pathToFile, pathToRenamedFile);
     }
   } catch (error) {
     console.log(error);
@@ -34,4 +34,4 @@ const renameFunc = async () => {
   // Write your code here
 };
 
-await renameFunc();
+await rename();
