@@ -2,11 +2,13 @@ import { sep } from "path";
 import { release, version } from "os";
 import { createServer as createServerHttp } from "http";
 import * as fileC from "./files/c.js";
-import { createRequire } from "node:module";
-const require = createRequire(import.meta.url);
-
-const fileA = require("./files/a.json");
-const fileB = require("./files/a.json");
+import { readFile } from "fs/promises";
+const fileA = JSON.parse(
+  await readFile(new URL("./files/a.json", import.meta.url))
+);
+const fileB = JSON.parse(
+  await readFile(new URL("./files/b.json", import.meta.url))
+);
 
 import { dirname } from "path";
 import { fileURLToPath } from "url";
